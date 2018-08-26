@@ -5,13 +5,14 @@ const express = require("express"),
   //////////////
   //DUMMY DATA//
   //////////////
-  { characters, getCharacter, getCharacters } = require("./swapi"),
+  { getCharacter, getCharacters, updateCharacter } = require("./swapi"),
   /////////////////
   //Root Resolver//
   /////////////////
   root = {
     character: getCharacter,
-    characters: getCharacters
+    characters: getCharacters,
+    updateCharacter
   },
   PORT = process.env.PORT || 3001,
   cors = require("cors"),
@@ -22,6 +23,9 @@ const express = require("express"),
     type Query{
     character(name:String!):Character
     characters(homeworld:String):[Character]
+    }
+    type Mutation{
+      updateCharacter(name:String!,height:Int!):Character
     }
     type Character{
       name:String

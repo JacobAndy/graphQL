@@ -1,0 +1,151 @@
+------------------------EXAMPLE 1--------------------------
+
+
+***QUERY EXAMPLE***
+
+query getSingleCharacter($characterName:String!){
+ character(name:$characterName){
+     skin_color
+     eye_color
+     homeworld
+   }
+ }
+
+
+***QUERY VARIABLES***
+
+{
+"characterName": "Luke Skywalker"
+ }
+
+
+ ***RETURNED DATA***
+ {
+  "data": {
+    "character": {
+      "skin_color": "fair",
+      "eye_color": "blue",
+      "homeworld": "https://swapi.co/api/planets/1/"
+    }
+  }
+}
+
+------------------------EXAMPLE 2--------------------------
+
+
+***QUERY EXAMPLE***
+
+ query getCharactes($homeworldLoc:String){
+     characters(homeworld:$homeworldLoc){
+       name
+     }
+   }
+
+***QUERY VARIABLES***
+
+ {
+     "homeworldLoc":"https://swapi.co/api/planets/1/"
+ }
+
+
+***RETURNED DATA***
+{
+  "data": {
+    "characters": [
+      {
+        "name": "Luke Skywalker"
+      },
+      {
+        "name": "C-3PO"
+      },
+      {
+        "name": "Darth Vader"
+      }
+    ]
+  }
+}
+
+------------------------EXAMPLE 3--------------------------
+
+***QUERY EXAMPLE***
+query getCharactersWithFragments($charName1:String!, $charName2:String!){
+  char1:character(name:$charName1){
+    ...characterFields
+}
+  char2:character(name:$charName2){
+    ...characterFields
+  }
+}
+fragment characterFields on Character{
+  name
+  eye_color
+  skin_color
+  homeworld
+}
+
+***QUERY VARIABLES***
+{
+  "charName1": "Luke Skywalker",
+  "charName2": "R2-D2"
+}
+
+
+***RETURNED DATA***
+{
+  "data": {
+    "char1": {
+      "name": "Luke Skywalker",
+      "eye_color": "blue",
+      "skin_color": "fair",
+      "homeworld": "https://swapi.co/api/planets/1/"
+    },
+    "char2": {
+      "name": "R2-D2",
+      "eye_color": "red",
+      "skin_color": "white, blue",
+      "homeworld": "https://swapi.co/api/planets/8/"
+    }
+  }
+}
+
+
+------------------------EXAMPLE 4--------------------------
+***QUERY EXAMPLE***
+
+mutation updateCharacterName($charName:String!, $charHeight:Int!){
+  updateCharacter(name:$charName, height:$charHeight){
+    ...characterFields
+  }
+}
+
+fragment characterFields on Character{
+  name
+  height
+  homeworld
+  eye_color
+  skin_color
+}
+
+
+
+***QUERY VARIABLES***
+
+{
+"charName": "Luke Skywalker",
+  "charHeight":201
+ }
+
+
+***RETURNED DATA***
+
+ {
+  "data": {
+    "updateCharacter": {
+      "name": "Luke Skywalker",
+      "height": "201",
+      "homeworld": "https://swapi.co/api/planets/1/",
+      "eye_color": "blue",
+      "skin_color": "fair"
+    }
+  }
+}

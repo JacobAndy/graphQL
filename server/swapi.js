@@ -56,49 +56,20 @@ function getCharacter(args) {
   const name = args.name;
   return characters.filter(character => character.name === name)[0];
 }
+function updateCharacter({ name, height }) {
+  characters.map(character => {
+    if (character.name === name) {
+      character.height = height;
+      return character;
+    } else {
+      return character;
+    }
+  });
+  return characters.filter(character => character.name === name)[0];
+}
 module.exports = {
   characters,
   getCharacter,
-  getCharacters
+  getCharacters,
+  updateCharacter
 };
-
-//------------------------EXAMPLE 1--------------------------//
-
-/////////////////
-//QUERY EXAMPLE//
-/////////////////
-
-//query getSingleCharacter($characterName:String!){
-// character(name:$characterName){
-//     skin_color
-//     eye_color
-//     homeworld
-//   }
-// }
-
-///////////////////
-//QUERY VARIABLES//
-///////////////////
-//
-//{
-//"name": "Luke Skywalker"
-// }
-
-//------------------------EXAMPLE 2--------------------------//
-
-/////////////////
-//QUERY EXAMPLE//
-/////////////////
-
-// query getCharactes($homeworldLoc:String){
-//     characters(homeworld:$homeworldLoc){
-//       name
-//     }
-//   }
-
-///////////////////
-//QUERY VARIABLES//
-///////////////////
-// {
-//     "homeworldLoc":"https://swapi.co/api/planets/1/"
-//   }
