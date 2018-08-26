@@ -2,25 +2,49 @@ const express = require("express"),
   app = express(),
   graphqlHTTP = require("express-graphql"),
   { buildSchema } = require("graphql"),
+  //////////////
+  //DUMMY DATA//
+  //////////////
+  { characters, getCharacter, getCharacters } = require("./swapi"),
+  /////////////////
+  //Root Resolver//
+  /////////////////
   root = {
-    hello: () => {
-      return "Hello World!";
-    }
-  };
-(PORT = process.env.PORT || 3001),
-  (cors = require("cors")),
-  (schema = buildSchema(`
+    character: getCharacter,
+    characters: getCharacters
+  },
+  PORT = process.env.PORT || 3001,
+  cors = require("cors"),
+  //////////////////
+  //GraphQL Schema//
+  //////////////////
+  schema = buildSchema(`
     type Query{
-    hello:String
+    character(name:String!):Character
+    characters(homeworld:String):[Character]
     }
-    `));
+    type Character{
+      name:String
+      height:String
+      mass: String
+      hair_color:String
+      eye_color:String
+      skin_color:String
+      birth_year:String
+      gender:String
+      homeworld:String
+    }
+    `);
 
 app.use(express.json());
 app.use(cors());
+///////////////////////
+// GraphQL Middleware//
+///////////////////////
 app.use(
   "/graphql",
   graphqlHTTP({
-    schema: schema,
+    schema,
     rootValue: root,
     graphiql: true
   })
