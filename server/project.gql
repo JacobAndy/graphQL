@@ -1,0 +1,18 @@
+type Query {
+  character(name: String!): Character
+  characters(homeworld: String): [Character]
+}
+type Mutation {
+  updateCharacter(name: String!, height: Int!): Character
+}
+type Character {
+  name: String
+  height: String
+  mass: String
+  hair_color: String
+  eye_color: String
+  skin_color: String
+  birth_year: String
+  gender: String
+  homeworld: String
+}

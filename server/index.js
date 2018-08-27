@@ -1,5 +1,7 @@
 const express = require("express"),
   app = express(),
+  fs = require("fs"),
+  path = require("path"),
   graphqlHTTP = require("express-graphql"),
   { buildSchema } = require("graphql"),
   //////////////
@@ -16,29 +18,12 @@ const express = require("express"),
   },
   PORT = process.env.PORT || 3001,
   cors = require("cors"),
+  filePath = path.join(__dirname, "project.gql"),
+  typeDefs = fs.readFileSync(filePath, "utf-8"),
   //////////////////
   //GraphQL Schema//
   //////////////////
-  schema = buildSchema(`
-    type Query{
-    character(name:String!):Character
-    characters(homeworld:String):[Character]
-    }
-    type Mutation{
-      updateCharacter(name:String!,height:Int!):Character
-    }
-    type Character{
-      name:String
-      height:String
-      mass: String
-      hair_color:String
-      eye_color:String
-      skin_color:String
-      birth_year:String
-      gender:String
-      homeworld:String
-    }
-    `);
+  schema = buildSchema(typeDefs);
 
 app.use(express.json());
 app.use(cors());
